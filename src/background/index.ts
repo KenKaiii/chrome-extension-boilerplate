@@ -91,18 +91,15 @@ createMessageHandler({
   },
 });
 
-// Handle extension icon click (if no popup)
-chrome.action.onClicked.addListener(async (tab) => {
-  // This only fires if there's no default_popup in manifest
-  console.log("[Background] Extension icon clicked on tab:", tab.id);
-});
-
-// Context menu setup (optional)
+// Context menu setup
 chrome.runtime.onInstalled.addListener(() => {
-  chrome.contextMenus.create({
-    id: "extension-action",
-    title: "Extension Action",
-    contexts: ["page", "selection"],
+  // Remove existing menus first (best practice)
+  chrome.contextMenus.removeAll(() => {
+    chrome.contextMenus.create({
+      id: "extension-action",
+      title: "Extension Action",
+      contexts: ["page", "selection"],
+    });
   });
 });
 
